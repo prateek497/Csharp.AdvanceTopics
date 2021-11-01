@@ -63,10 +63,30 @@ namespace CSharp.DesignPatterns.FactoryMethod
         }
     }
 
+    public abstract class CreditCardFactoryMethod
+    {
+        protected abstract ICreditCard GetCreditCard();
+
+        public ICreditCard CreateProduct()
+        {
+            return GetCreditCard();
+        }
+
+    }
+
+    public class VisaFactory : CreditCardFactoryMethod
+    {
+        protected override ICreditCard GetCreditCard()
+        {
+            ICreditCard product = new VisaCreditCard();
+            return product;
+        }
+    }
+
     public static class CreditCardFactory
     {
-        public static ICreditCard GetCreditCard(string type) {
-
+        public static ICreditCard GetCreditCard(string type)
+        {
             ICreditCard creditCard = null;
 
             if (type.Equals("Visa"))
@@ -99,6 +119,9 @@ namespace CSharp.DesignPatterns.FactoryMethod
             Console.WriteLine("CardType : " + creditCard.GetCreditCardType());
             Console.WriteLine("CreditLimit : " + creditCard.GetCreditCardLimit());
             Console.WriteLine("AnnualCharge :" + creditCard.GetCreditCardCharge());
+
+            //Abstract Method
+            var creditCardAbstractMethod = new VisaFactory().CreateProduct();
 
             Console.ReadLine();
         }
